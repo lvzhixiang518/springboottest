@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎登陆</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="js/bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="js/fileInput/css/fileinput.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="js/jquery/jquery-3.4.1.js"></script>
+    <script src="js/fileInput/js/fileinput.min.js"></script>
+    <!-- 最新的 fileInput 中文化  -->
+    <script src="js/fileInput/js/locales/zh.js"></script>
+
+    <script src="js/jquery/form.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件  -->
+    <script src="js/bootstrap-3.3.7/js/bootstrap.js"></script>
+    <script src="js/htmljs/fileInput.js"></script>
+</head>
+<body>
+<a href="javascript:void(0)" onclick="uploadPhoto()">选择图片</a>
+<input type="file" id="photoFile" style="display: none;" onchange="upload()">
+<img id="preview_photo" src="images/1578999942704.jpg" width="200px" height="200px">
+</body>
+<style>
+    img[src=""],img:not([src]){
+        opacity:0;
+    }
+</style>
+<script>
+    function uploadPhoto() {
+        $("#photoFile").click();
+    }
+
+    /**
+     * 上传图片
+     */
+    function upload() {
+        if ($("#photoFile").val() == '') {
+            return;
+        }
+        var formData = new FormData();
+        formData.append('photo', document.getElementById('photoFile').files[0]);
+        $.ajax({
+            url:"http://localhost:6661/util/uploadPhoto",
+            type:"post",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                if (data.type == "success") {
+                    $("#preview_photo").attr("src", data.filepath+data.filename);
+                    $("#productImg").val(data.filename);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error:function(data) {
+                alert("上传失败")
+            }
+        });
+    }
+</script>
+</html>

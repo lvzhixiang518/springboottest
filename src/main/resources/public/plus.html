@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎登陆</title>
+    <script src="js/jquery/jquery-3.4.1.js"></script>
+
+    <script src="js/jquery/form.js"></script>
+</head>
+<body>
+<form id="fom" method="post" enctype="multipart/form-data">
+    <table border="1px">
+        <tr>
+            <td>图片上传</td>
+            <td><img id="img" style="width: 200px;height: 100px;" src=""/><input type="file" id="imgs" name="imgs" onchange="imgfun()"/></td>
+            <input type="hidden" name="path" id="pic" />
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="提交"/><input type="button" value="取消"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+
+<script>
+    function imgfun() {
+        var obj = {
+            url:"imgupload.do",
+            dataType:"json",
+            type:"post",
+            success:function(result){
+                var objs;
+                if ((typeof result == 'object') && result.constructor == Object){
+                    objs = result;
+                } else {
+                    objs = eval("("+result+")");
+                }
+                $("#img").attr("width","100px");
+                $("#img").attr("src",objs.path);
+                $("#pic").val(objs.oaths);
+            }
+        };
+        $("#fom").ajaxSubmit(obj);
+    }
+
+
+</script>
+</html>
