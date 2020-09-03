@@ -9,6 +9,7 @@ public class Java8test {
     public static void main(String[] args) {
         System.out.println(System.currentTimeMillis());
         System.out.println("zheshi ceshi de 数据");
+        System.out.println("我是test1234分支的测试shuju");
     }
 
     /*public static void main(String[] args) {
